@@ -39,7 +39,9 @@ void setLevel(int level) {
     motor.step(steps);
     resetMotorPins();
     currentLevel = level;
-    valveNode.setProperty("state").send(String(currentLevel));
+    if (Homie.isConnected()) {
+      valveNode.setProperty("state").send(String(currentLevel));
+    }
   }
 }
 
@@ -56,16 +58,12 @@ void setupHandler() {
   valveNode.setProperty("unit").send("%");
 }
 
-void loopHandler() {
-  setLevel(targetLevel);
-}
-
 void setup() {
   Serial.begin(115200);
   Serial << endl << endl;
 
   Homie_setFirmware(FW_NAME, FW_VERSION);
-  Homie.setSetupFunction(setupHandler).setLoopFunction(loopHandler);
+  Homie.setSetupFunction(setupHandler);
   
   valveNode.advertise("unit");
   valveNode.advertise("state").settable(valveLevelHandler);
@@ -74,5 +72,9 @@ void setup() {
 }
 
 void loop() {
+  if (!Homie.isConnected()) {
+    targetLevel = 100;
+  }
+  setLevel(targetLevel);
   Homie.loop();
 }
