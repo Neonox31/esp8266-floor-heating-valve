@@ -17,3 +17,14 @@ git clone https://github.com/Neonox31/esp8266-floor-heating-valve.git
 cd esp8266-floor-heating-valve
 pio init
 ```
+
+### Configure
+
+```
+set -x DEVICE_NAME "My Device Name"
+set -x DEVICE_ID my-device-id
+set -x WIFI_SSID my-ssid
+set -x WIFI_PASSWORD my-password
+envsubst < homie-config.json > private-config.json
+curl -X PUT http://192.168.123.1/config --header "Content-Type: application/json" -d @private-config.json
+```

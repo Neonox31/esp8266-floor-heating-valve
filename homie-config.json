@@ -1,0 +1,17 @@
+{
+  "name": "${DEVICE_NAME}",
+  "device_id": "${DEVICE_ID}",
+  "device_stats_interval": 60,
+  "wifi": {
+    "ssid": "${WIFI_SSID}",
+    "password": "${WIFI_PASSWORD}"
+  },
+  "mqtt": {
+    "host": "192.168.10.253",
+    "port": 1883,
+    "base_topic": "home/devices/"
+  },
+  "ota": {
+    "enabled": true
+  }
+}
